@@ -10,13 +10,11 @@ const USER_URL_LENGTH: usize = 255;
 
 #[program]
 pub mod programs {
-    use anchor_lang::solana_program::entrypoint_deprecated::ProgramResult;
-
     use super::*;
 
     pub fn create_state(
         ctx: Context<CreateState>,
-    ) -> ProgramResult {
+    ) -> Result<()> {
         let state = &mut ctx.accounts.state;
         state.authority = ctx.accounts.authority.key();
         state.post_count = 0;
@@ -28,7 +26,7 @@ pub mod programs {
         text: String,
         poster_name: String,
         poster_url: String,
-    ) -> ProgramResult {
+    ) -> Result<()> {
         let state = &mut ctx.accounts.state;
         let post = &mut ctx.accounts.post;
         post.authority = ctx.accounts.authority.key();
@@ -42,9 +40,7 @@ pub mod programs {
         state.post_count += 1;
         Ok(())
     }
-
 }
-
 
 #[derive(Accounts)]
 pub struct CreateState<'info> {
@@ -60,28 +56,20 @@ pub struct CreateState<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
-    pub system_program: UncheckedAccount<'info>,
+    pub system_program: Program<'info, System>,  
 
     #[account(constraint = token_program.key == &token::ID)]
     pub token_program: Program<'info, Token>,
 }
 
-#[account]
-pub struct StateAccount {
-    pub authority: Pubkey,
-    pub post_count: u64,
-}
-
 #[derive(Accounts)]
 pub struct CreatePost<'info> {
-
     #[account(mut, seeds = [b"state".as_ref()], bump)]
     pub state: Account<'info, StateAccount>,
 
-
     #[account(
         init,
-        seeds = [b"post".as_ref(), state.post_count.to_be_bytes().as_ref()],
+        seeds = [b"post".as_ref(), &state.post_count.to_le_bytes()], 
         bump,
         payer = authority,
         space = size_of::<PostAccount>() + TEXT_LENGTH + USER_NAME_LENGTH + USER_URL_LENGTH
@@ -91,12 +79,18 @@ pub struct CreatePost<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
-    pub system_program: UncheckedAccount<'info>,
+    pub system_program: Program<'info, System>, 
 
     #[account(constraint = token_program.key == &token::ID)]
     pub token_program: Program<'info, Token>,
 
-    pub clock: Sysvar<'info, Clock>,
+    pub clock: Sysvar<'info, Clock>,  
+}
+
+#[account]
+pub struct StateAccount {
+    pub authority: Pubkey,
+    pub post_count: u64,
 }
 
 #[account]
