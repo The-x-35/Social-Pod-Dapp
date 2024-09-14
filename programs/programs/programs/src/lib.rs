@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token};
+use std::mem::size_of;
 
 declare_id!("8MKSwpR9qs9zZj5bNUpzY5s8zijogrpB1PXDsBbziDVG");
 
@@ -9,16 +10,41 @@ const USER_URL_LENGTH: usize = 255;
 
 #[program]
 pub mod programs {
+    use anchor_lang::solana_program::entrypoint_deprecated::ProgramResult;
+
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
+    pub fn create_state(
+        ctx: Context<CreateState>,
+    ) -> ProgramResult {
+        let state = &mut ctx.accounts.state;
+        state.authority = ctx.accounts.authority.key();
+        state.post_count = 0;
         Ok(())
     }
+
+    pub fn create_post(
+        ctx: Context<CreatePost>,
+        text: String,
+        poster_name: String,
+        poster_url: String,
+    ) -> ProgramResult {
+        let state = &mut ctx.accounts.state;
+        let post = &mut ctx.accounts.post;
+        post.authority = ctx.accounts.authority.key();
+        post.text = text;
+        post.poster_name = poster_name;
+        post.poster_url = poster_url;
+        post.comment_count = 0;
+        post.index = state.post_count;
+        post.post_time = ctx.accounts.clock.unix_timestamp;
+
+        state.post_count += 1;
+        Ok(())
+    }
+
 }
 
-#[derive(Accounts)]
-pub struct Initialize {}
 
 #[derive(Accounts)]
 pub struct CreateState<'info> {
