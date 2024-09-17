@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignUp from "./components/SignUp";
+import Feed from "./components/Feed";
+import { useWallet } from "@solana/wallet-adapter-react";
+import Header from "./components/Header";
 
 const style = {
   wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -15,15 +18,16 @@ export default function Home() {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [users, setUsers] = useState([])
+  const wallet = useWallet()
   return (
     <div className={style.wrapper}>
-      {/* <Header name={name} url={url} /> */}
+      <Header name={name} url={url} />
 
       {registered ? ( 
         <div className={style.homeWrapper}>
           {/* <Sidebar name={name} url={url} /> */}
           <div className={style.main}>
-            {/* <Feed connected={wallet.connected} name={name} url={url} /> */}
+            <Feed connected={wallet.connected} name={name} url={url} />
           </div>
           {/* <RightSidebar
             getUsers={requestUsersData}
