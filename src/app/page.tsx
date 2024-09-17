@@ -4,6 +4,13 @@ import SignUp from "./components/SignUp";
 import Feed from "./components/Feed";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Header from "./components/Header";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { useMemo, FC } from 'react';
 
 const style = {
   wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -19,15 +26,22 @@ export default function Home() {
   const [url, setUrl] = useState('')
   const [users, setUsers] = useState([])
   const wallet = useWallet()
+  const endpoint = useMemo(() => 'https://api.devnet.solana.com', []);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
   return (
     <div className={style.wrapper}>
-      <Header name={name} url={url} />
-
+      <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+      <WalletModalProvider>
+        <Header name={name} url={url} />
+        </WalletModalProvider>
+      </WalletProvider>
+      </ConnectionProvider>
       {registered ? ( 
         <div className={style.homeWrapper}>
           {/* <Sidebar name={name} url={url} /> */}
           <div className={style.main}>
-            <Feed connected={wallet.connected} name={name} url={url} />
+            {/* <Feed connected={wallet.connected} name={name} url={url} /> */}
           </div>
           {/* <RightSidebar
             getUsers={requestUsersData}

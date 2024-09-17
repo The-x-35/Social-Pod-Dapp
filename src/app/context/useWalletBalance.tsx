@@ -1,3 +1,4 @@
+"use client";
 import { useWallet } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { createContext, useContext, useEffect, useState } from 'react'
