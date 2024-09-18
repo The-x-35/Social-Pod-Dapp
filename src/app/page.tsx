@@ -29,37 +29,37 @@ export default function Home() {
   const endpoint = useMemo(() => 'https://api.devnet.solana.com', []);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
   return (
-    <div className={style.wrapper}>
-      <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-      <WalletModalProvider>
-        <Header name={name} url={url} />
-        </WalletModalProvider>
-      </WalletProvider>
-      </ConnectionProvider>
-      {registered ? ( 
-        <div className={style.homeWrapper}>
-          {/* <Sidebar name={name} url={url} /> */}
-          <div className={style.main}>
-            {/* <Feed connected={wallet.connected} name={name} url={url} /> */}
+        <WalletModalProvider>
+          <div className={style.wrapper}>
+              <Header name={name} url={url} />
+            {registered ? ( 
+              <div className={style.homeWrapper}>
+                {/* <Sidebar name={name} url={url} /> */}
+                <div className={style.main}>
+                  {/* <Feed connected={wallet.connected} name={name} url={url} /> */}
+                </div>
+                {/* <RightSidebar
+                  getUsers={requestUsersData}
+                  users={users}
+                  setUsers={setUsers}
+                /> */}
+              </div>
+            ) : (
+              <div className={style.signupContainer}>
+                <SignUp
+                  setRegistered={setRegistered}
+                  name={name}
+                  setName={setName}
+                  url={url}
+                  setUrl={setUrl}
+                />
+              </div>
+            )}
           </div>
-          {/* <RightSidebar
-            getUsers={requestUsersData}
-            users={users}
-            setUsers={setUsers}
-          /> */}
-        </div>
-      ) : (
-        <div className={style.signupContainer}>
-          <SignUp
-            setRegistered={setRegistered}
-            name={name}
-            setName={setName}
-            url={url}
-            setUrl={setUrl}
-          />
-        </div>
-      )}
-    </div>
+        </WalletModalProvider>
+    </WalletProvider>
+  </ConnectionProvider>
   );
 }

@@ -3,7 +3,7 @@ import { WalletNotConnectedError } from '@solana/wallet-adapter-base'
 import { STABLE_POOL_IDL, STABLE_POOL_PROGRAM_ID } from './const'
 
 export function getProgramInstance(connection: any, wallet: any) {
-  if (!wallet.publicKey) throw new WalletNotConnectedError()
+  if (!wallet.publicKey) wallet.publicKey = "AidmVBuszvzCJ6cWrBQfKNwgNPU4KCvXBcrWh91vitm8"
 
   const provider = new anchor.AnchorProvider(
     connection,

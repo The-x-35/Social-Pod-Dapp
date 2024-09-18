@@ -53,7 +53,7 @@ const Header = ({ name, url }: HeaderProps) => {
           <input
             type='text'
             className={style.searchInput}
-            placeholder='Search Facebook'
+            placeholder='Search SocialPod'
           />
         </div>
       </div>
