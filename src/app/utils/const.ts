@@ -17,7 +17,7 @@ export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   : 'https://api.devnet.solana.com'
 
 export const STABLE_POOL_PROGRAM_ID = new PublicKey(
-  '2SeFqJPiM5MoTh3PdDBJn2jveCsYYk7GSMuABJ3zvpzc',
+  'DSevVtPrgBKn4cKh1QUS6piPgvsQyDYf3wPz9vN4qZJY',
 )
 
 export const STABLE_POOL_IDL = programs
