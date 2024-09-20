@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token};
 use std::mem::size_of;
 
-declare_id!("2SeFqJPiM5MoTh3PdDBJn2jveCsYYk7GSMuABJ3zvpzc");
+declare_id!("DSevVtPrgBKn4cKh1QUS6piPgvsQyDYf3wPz9vN4qZJY");
 
 const TEXT_LENGTH: usize = 1024;
 const USER_NAME_LENGTH: usize = 100;
@@ -77,7 +77,8 @@ pub struct CreateState<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
-    pub system_program: Program<'info, System>,  
+    /// CHECK: `system_program` is the native system program.
+    pub system_program: UncheckedAccount<'info>,
 
     #[account(constraint = token_program.key == &token::ID)]
     pub token_program: Program<'info, Token>,
@@ -100,7 +101,8 @@ pub struct CreatePost<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
-    pub system_program: Program<'info, System>, 
+    /// CHECK: `system_program` is the native system program.
+    pub system_program: UncheckedAccount<'info>,
 
     #[account(constraint = token_program.key == &token::ID)]
     pub token_program: Program<'info, Token>,
@@ -125,6 +127,7 @@ pub struct CreateComment<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
+    /// CHECK: `system_program` is the native system program.
     pub system_program: UncheckedAccount<'info>,
 
     #[account(constraint = token_program.key == &token::ID)]
