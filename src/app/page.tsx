@@ -11,6 +11,8 @@ import {
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { useMemo, FC } from 'react';
+import { WalletBalanceProvider } from './context/useWalletBalance'
+import dynamic from 'next/dynamic'
 
 const style = {
   wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -19,7 +21,12 @@ const style = {
   main: `flex-1 flex justify-center`,
   signupContainer: `flex items-center justify-center w-screen h-[70vh]`,
 }
-
+const WalletConnectionProvider = dynamic(
+  () => import('./context/WalletConnectionProvider'),
+  {
+    ssr: false,
+  },
+)
 export default function Home() {
   const [registered, setRegistered] = useState(false)
   const [name, setName] = useState('')
@@ -29,6 +36,8 @@ export default function Home() {
   const endpoint = useMemo(() => 'https://api.devnet.solana.com', []);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
   return (
+    <WalletConnectionProvider>
+    <WalletBalanceProvider>
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
@@ -61,5 +70,7 @@ export default function Home() {
         </WalletModalProvider>
     </WalletProvider>
   </ConnectionProvider>
+  </WalletBalanceProvider>
+  </WalletConnectionProvider>
   );
 }

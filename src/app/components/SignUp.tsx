@@ -35,6 +35,7 @@ const SignUp: React.FC<SignUpProps> = ({ setRegistered, name, setName, url, setU
   const generateRandomProfileImageUrl = () => {
     const seed = name || generateRandomString();  
     setUrl(`https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${seed}`);
+    url = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${seed}`;
   }
 
   const createUser = async (event: React.FormEvent<HTMLFormElement>) => {

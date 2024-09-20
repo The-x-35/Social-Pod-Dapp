@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { BiLike } from 'react-icons/bi'
@@ -97,14 +98,14 @@ const Post: React.FC<PostProps> = ({ post, viewDetail, createComment, name, url 
           <div className={style.reactionsText}>Refresh Comments</div>
         </div>
       </div>
-      {isCommentSectionOpened && (
+      {/* {isCommentSectionOpened && (
         <CommentSection
           comments={comments}
           createCommentForPost={createCommentForPost}
           name={name}
           url={url}
         />
-      )}
+      )} */}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react'
 import Image from 'next/image'
 import { AiOutlineSearch, AiFillHome } from 'react-icons/ai'
@@ -18,6 +19,9 @@ interface HeaderProps {
 
 const Header = ({ name, url }: HeaderProps) => {
   const [balance] = useWalletBalance()
+  const customLoader = ({ src }: { src: string }) => {
+    return src; 
+  };
 
   const style = {
     wrapper: `flex items-center w-full h-[4rem] justify-around px-[1rem] py-[0.2rem] sticky top-0 bg-[#252526] shadow-[0px 5px 8px -9px rgba(0, 0, 0, 0.75)] z-20`,
@@ -77,6 +81,7 @@ const Header = ({ name, url }: HeaderProps) => {
         {name && (
           <div className={`${style.userInfo} ${style.headerRightButton}`}>
             <Image
+              loader={customLoader}
               src={url}
               height={20}
               width={20}

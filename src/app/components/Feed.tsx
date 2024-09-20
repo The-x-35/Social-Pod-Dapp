@@ -1,3 +1,4 @@
+"use client";
 import toast, { Toaster } from 'react-hot-toast'
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { useWallet } from '@solana/wallet-adapter-react'
