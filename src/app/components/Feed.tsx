@@ -140,7 +140,7 @@ const Feed: React.FC<FeedProps> = ({ connected, name, url }) => {
     } catch (error) {
       await program.methods.createState().accounts({
         state: stateSigner,
-        authority: wallet.publicKey,
+        authority: wallet.publicKey!,
         ...defaultAccounts,
       }).rpc();
     
@@ -159,7 +159,7 @@ const Feed: React.FC<FeedProps> = ({ connected, name, url }) => {
       await program.methods.createPost(text, name, url).accounts({
         state: stateSigner,
         post: postSigner,
-        authority: wallet.publicKey,
+        authority: wallet.publicKey!,
         ...defaultAccounts,
       }).rpc();
     
@@ -193,14 +193,15 @@ const Feed: React.FC<FeedProps> = ({ connected, name, url }) => {
         program.programId,
       )
 
-      await program.rpc.createComment(text, name, url, {
-        accounts: {
-          post: postSigner,
-          comment: commentSigner,
-          authority: wallet.publicKey,
-          ...defaultAccounts,
-        },
-      })
+      await program.methods
+  .createComment(text, name, url) 
+  .accounts({
+    post: postSigner,
+    comment: commentSigner,
+    authority: wallet.publicKey!,
+    ...defaultAccounts,
+  }) 
+  .rpc(); 
 
       await program.account.commentAccount.fetch(commentSigner)
     } catch (error) {

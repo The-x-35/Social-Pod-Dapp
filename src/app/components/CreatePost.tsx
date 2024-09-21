@@ -36,11 +36,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ savePost, getAllPosts, name, ur
 
     await savePost(input)
   }
+  const customLoader = ({ src }: { src: string }) => {
+    return src; 
+  };
 
   return (
     <div className={style.wrapper}>
       <div className={style.formContainer}>
         <Image
+          loader={customLoader}
           src={url}
           alt='profile image'
           className={style.profileImage}

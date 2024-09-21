@@ -47,7 +47,7 @@ const Post: React.FC<PostProps> = ({ post, viewDetail, createComment, name, url 
   }, [post, viewDetail])
 
   useEffect(() => {
-    if (comments.length > 0) {
+    if (comments && comments.length > 0) {
       setIsCommentSectionOpened(true)
     }
   }, [comments])
@@ -58,11 +58,15 @@ const Post: React.FC<PostProps> = ({ post, viewDetail, createComment, name, url 
   const createCommentForPost = async (text: string) => {
     await createComment(text, post.index, post.commentCount)
   }
+  const customLoader = ({ src }: { src: string }) => {
+    return src; 
+  };
 
   return (
     <div className={style.wrapper}>
       <div className={style.postPublisher}>
         <Image
+          loader={customLoader}
           src={post.posterUrl}
           className={style.avatar}
           height={44}
