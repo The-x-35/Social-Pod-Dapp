@@ -24,8 +24,8 @@ const Header = ({ name, url }: HeaderProps) => {
   };
 
   const style = {
-    wrapper: `flex items-center w-full h-[4rem] justify-around px-[1rem] py-[0.2rem] sticky top-0 bg-[#252526] shadow-[0px 5px 8px -9px rgba(0, 0, 0, 0.75)] z-20`,
-    headerLeft: `flex justify-center gap-[0.6rem]`,
+    wrapper: `flex items-center w-full h-[5rem] justify-around px-[1rem] py-[0.2rem] sticky top-0 bg-[#252526] shadow-[0px 5px 8px -9px rgba(0, 0, 0, 0.75)] z-20 p-2`,
+    headerLeft: `flex justify-center gap-[0.6rem] m-2 p-2`,
     facebookLogo: `items-center flex object-contain`,
     searchContainer: `flex items-center bg-[#3a3b3d] max-w-[18rem] rounded-full py-2 px-2 text-[#b0b3b8]`,
     searchInput: `border-none px-[0.6rem] bg-transparent outline-none w-[18rem] text-white placeholder:text-[#b0b3b8]`,
@@ -49,8 +49,8 @@ const Header = ({ name, url }: HeaderProps) => {
           className={style.facebookLogo}
           src= {Logo}
           alt=''
-          height={30}
-          width={30}
+          height={200}
+          width={200}
         />
         <div className={style.searchContainer}>
           <AiOutlineSearch />

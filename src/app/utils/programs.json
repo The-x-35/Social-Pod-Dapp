@@ -1,5 +1,5 @@
 {
-  "address": "2SeFqJPiM5MoTh3PdDBJn2jveCsYYk7GSMuABJ3zvpzc",
+  "address": "DSevVtPrgBKn4cKh1QUS6piPgvsQyDYf3wPz9vN4qZJY",
   "metadata": {
     "name": "programs",
     "version": "0.1.0",
@@ -7,6 +7,103 @@
     "description": "Created with Anchor"
   },
   "instructions": [
+    {
+      "name": "create_comment",
+      "discriminator": [
+        236,
+        232,
+        11,
+        180,
+        70,
+        206,
+        73,
+        145
+      ],
+      "accounts": [
+        {
+          "name": "post",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  115,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post.index",
+                "account": "PostAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "comment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post.index",
+                "account": "PostAccount"
+              },
+              {
+                "kind": "account",
+                "path": "post.comment_count",
+                "account": "PostAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "commenter_name",
+          "type": "string"
+        },
+        {
+          "name": "commenter_url",
+          "type": "string"
+        }
+      ]
+    },
     {
       "name": "create_post",
       "discriminator": [
@@ -66,8 +163,7 @@
           "signer": true
         },
         {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
+          "name": "system_program"
         },
         {
           "name": "token_program",
@@ -130,8 +226,7 @@
           "signer": true
         },
         {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
+          "name": "system_program"
         },
         {
           "name": "token_program",
@@ -142,6 +237,19 @@
     }
   ],
   "accounts": [
+    {
+      "name": "CommentAccount",
+      "discriminator": [
+        42,
+        146,
+        173,
+        246,
+        2,
+        22,
+        223,
+        91
+      ]
+    },
     {
       "name": "PostAccount",
       "discriminator": [
@@ -170,6 +278,38 @@
     }
   ],
   "types": [
+    {
+      "name": "CommentAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "text",
+            "type": "string"
+          },
+          {
+            "name": "commenter_name",
+            "type": "string"
+          },
+          {
+            "name": "commenter_url",
+            "type": "string"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          },
+          {
+            "name": "post_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
     {
       "name": "PostAccount",
       "type": {

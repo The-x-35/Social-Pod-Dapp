@@ -13,6 +13,8 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { useMemo, FC } from 'react';
 import { WalletBalanceProvider } from './context/useWalletBalance'
 import dynamic from 'next/dynamic'
+import RightSidebar from "./components/RightSidebar";
+import Sidebar from "./components/Sidebar";
 
 const style = {
   wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -35,6 +37,23 @@ export default function Home() {
   const wallet = useWallet()
   const endpoint = useMemo(() => 'https://api.devnet.solana.com', []);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+
+  useEffect(() => {
+    ;(async () => {
+      await requestUsersData()
+    })()
+  }, [])
+
+  const requestUsersData = async () => {
+    try {
+      const response = await fetch(`/api/fetchUsers`)
+      const data = await response.json()
+
+      setUsers(data.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <WalletConnectionProvider>
     <WalletBalanceProvider>
@@ -45,15 +64,14 @@ export default function Home() {
               <Header name={name} url={url} />
             {registered ? ( 
               <div className={style.homeWrapper}>
-                {/* <Sidebar name={name} url={url} /> */}
+                <Sidebar name={name} url={url} />
                 <div className={style.main}>
-                  <Feed connected={wallet.connected} name={name} url={url} />
+                  {/* <Feed connected={wallet.connected} name={name} url={url} /> */}
                 </div>
-                {/* <RightSidebar
+                <RightSidebar
                   getUsers={requestUsersData}
                   users={users}
-                  setUsers={setUsers}
-                /> */}
+                />
               </div>
             ) : (
               <div className={style.signupContainer}>
